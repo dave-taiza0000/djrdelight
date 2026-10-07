@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Help Center</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:40px;
+}
+
+.header{
+background:#F28C6A;
+padding:25px 20px;
+border-radius:0 0 30px 30px;
+color:white;
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.back-link{
+color:white;
+text-decoration:none;
+font-size:22px;
+line-height:1;
+}
+
+.header h2{
+font-size:19px;
+}
+
+.section{
+padding:20px;
+}
+
+h3.label{
+color:#F28C6A;
+font-size:13px;
+text-transform:uppercase;
+letter-spacing:.5px;
+margin:0 0 10px;
+}
+
+.faq-item{
+background:white;
+border-radius:15px;
+margin-bottom:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+overflow:hidden;
+}
+
+.faq-question{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 16px;
+cursor:pointer;
+font-size:14px;
+color:#444;
+font-weight:bold;
+}
+
+.faq-arrow{
+color:#F28C6A;
+transition:transform .2s;
+flex:0 0 auto;
+margin-left:10px;
+}
+
+.faq-item.open .faq-arrow{
+transform:rotate(180deg);
+}
+
+.faq-answer{
+max-height:0;
+overflow:hidden;
+transition:max-height .25s ease;
+padding:0 16px;
+font-size:13px;
+color:#777;
+line-height:1.6;
+}
+
+.faq-item.open .faq-answer{
+max-height:200px;
+padding-bottom:15px;
+}
+
+.contact-box{
+background:white;
+border-radius:18px;
+padding:18px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+margin-top:22px;
+text-align:center;
+}
+
+.contact-box p{
+font-size:13px;
+color:#999;
+margin-bottom:14px;
+}
+
+.contact-btn{
+display:block;
+background:#F28C6A;
+color:white;
+text-decoration:none;
+padding:13px;
+border-radius:25px;
+font-weight:bold;
+font-size:14px;
+margin-bottom:10px;
+}
+
+.contact-link{
+display:block;
+color:#F28C6A;
+text-decoration:none;
+font-size:13px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+<a href="accountDJR.html" class="back-link">←</a>
+<h2>Help Center</h2>
+</div>
+
+<div class="section">
+
+<h3 class="label">Frequently Asked Questions</h3>
+
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-question">
+<span>How do I track my order?</span>
+<span class="faq-arrow">⌄</span>
+</div>
+<div class="faq-answer">Go to Account → My Orders, or tap the 🛒 icon on Home after checking out. You'll see a live status timeline from "Order confirmed" to "Delivered".</div>
+</div>
+
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-question">
+<span>How do I change my delivery address?</span>
+<span class="faq-arrow">⌄</span>
+</div>
+<div class="faq-answer">Go to Account → Delivery Address to add or update where your orders get delivered. It's also editable right from the Checkout page.</div>
+</div>
+
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-question">
+<span>What payment methods are accepted?</span>
+<span class="faq-arrow">⌄</span>
+</div>
+<div class="faq-answer">Cash on Delivery, GCash, and Credit/Debit Card. You can save your preferred methods under Account → Payment Method.</div>
+</div>
+
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-question">
+<span>Can I cancel or edit an order after placing it?</span>
+<span class="faq-arrow">⌄</span>
+</div>
+<div class="faq-answer">Not yet from the app directly — please reach out through Feedback or the contact options below and we'll help you sort it out.</div>
+</div>
+
+<div class="faq-item" onclick="this.classList.toggle('open')">
+<div class="faq-question">
+<span>How do I save items to Favorites?</span>
+<span class="faq-arrow">⌄</span>
+</div>
+<div class="faq-answer">Tap the heart ♡ icon on any product card, on Home or Categories. It'll turn into ♥ and show up under the Favorites tab.</div>
+</div>
+
+<div class="contact-box">
+<p>Still need help? We're happy to assist.</p>
+<a href="https://forms.gle/q4Hat5EvqzR6xZnY7" target="_blank" class="contact-btn">💬 Send Us Feedback</a>
+<a href="mailto:support@djrdelights.ph" class="contact-link">✉️ support@djrdelights.ph</a>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

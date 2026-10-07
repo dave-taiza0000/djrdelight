@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Order History</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:100px;
+}
+
+.header{
+background:#F28C6A;
+padding:25px 20px;
+border-radius:0 0 30px 30px;
+color:white;
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.back-link{
+color:white;
+text-decoration:none;
+font-size:22px;
+line-height:1;
+}
+
+.header h2{
+font-size:19px;
+}
+
+.section{
+padding:20px;
+}
+
+.order-card{
+background:white;
+border-radius:16px;
+padding:16px;
+margin-bottom:14px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.order-card-top{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:6px;
+}
+
+.order-id{
+font-size:13.5px;
+font-weight:bold;
+color:#444;
+}
+
+.status-badge{
+font-size:10.5px;
+font-weight:bold;
+padding:4px 10px;
+border-radius:12px;
+white-space:nowrap;
+}
+
+.status-preparing{
+background:#FFF0E8;
+color:#F28C6A;
+}
+
+.status-outfordelivery{
+background:#E3F2FD;
+color:#1976D2;
+}
+
+.status-delivered{
+background:#E8F5E9;
+color:#2E7D32;
+}
+
+.order-date{
+font-size:11.5px;
+color:#999;
+margin-bottom:10px;
+}
+
+.order-items-summary{
+font-size:13px;
+color:#666;
+line-height:1.5;
+margin-bottom:12px;
+}
+
+.order-card-bottom{
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-top:1px dashed #eee;
+padding-top:10px;
+}
+
+.order-total{
+font-size:15px;
+font-weight:bold;
+color:#F28C6A;
+}
+
+.order-payment{
+font-size:12px;
+color:#999;
+}
+
+.empty-state{
+text-align:center;
+padding:70px 20px;
+color:#999;
+}
+
+.empty-state .emoji{
+font-size:55px;
+margin-bottom:15px;
+}
+
+.empty-state p{
+font-size:14px;
+line-height:1.5;
+}
+
+.empty-state a{
+display:inline-block;
+margin-top:18px;
+background:#F28C6A;
+color:white;
+text-decoration:none;
+padding:12px 24px;
+border-radius:20px;
+font-weight:bold;
+font-size:13px;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+width:390px;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+border-top:1px solid #ddd;
+}
+
+.bottom a{
+text-decoration:none;
+color:#666;
+font-size:13px;
+text-align:center;
+}
+
+.bottom a:hover{
+color:#F28C6A;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+<a href="accountDJR.html" class="back-link">←</a>
+<h2>My Orders</h2>
+</div>
+
+<div class="section" id="history-section">
+<!-- filled in by renderOrderHistory() -->
+</div>
+
+<div class="bottom">
+
+<a href="homeDJR.html">
+🏠<br>Home
+</a>
+
+<a href="categoriesDJR.html">
+📂<br>Categories
+</a>
+
+<a href="favoriteDJR.html">
+❤<br>Favorites
+</a>
+
+<a href="orderDJR.html">
+🛒<br>Orders
+</a>
+
+<a href="accountDJR.html">
+👤<br>Account
+</a>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+function statusClass(status) {
+  if (status === 'Preparing') return 'status-preparing';
+  if (status === 'Out for Delivery') return 'status-outfordelivery';
+  return 'status-delivered';
+}
+
+function renderOrderHistory() {
+  const section = document.getElementById('history-section');
+  const orders = getOrderHistory();
+
+  if (orders.length === 0) {
+    section.innerHTML = `
+      <div class="empty-state">
+        <div class="emoji">📦</div>
+        <p>No orders yet.<br>Your past orders will show up here once you check out.</p>
+        <a href="homeDJR.html">Browse Menu</a>
+      </div>`;
+    return;
+  }
+
+  section.innerHTML = orders.map(order => {
+    const status = computeOrderStatus(order);
+    const itemsSummary = order.items
+      .map(it => `${it.emoji} ${it.name} x${it.qty}`)
+      .join(', ');
+
+    return `
+      <div class="order-card">
+        <div class="order-card-top">
+          <span class="order-id">Order #${order.orderId}</span>
+          <span class="status-badge ${statusClass(status)}">${status}</span>
+        </div>
+        <div class="order-date">${order.date}</div>
+        <div class="order-items-summary">${itemsSummary}</div>
+        <div class="order-card-bottom">
+          <span class="order-total">₱${order.total}</span>
+          <span class="order-payment">${order.payment}</span>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+document.addEventListener('DOMContentLoaded', renderOrderHistory);
+</script>
+
+</body>
+</html>

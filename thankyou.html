@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Thank You</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:100px;
+}
+
+.header{
+background:#F28C6A;
+padding:55px 20px 45px;
+border-radius:0 0 30px 30px;
+color:white;
+text-align:center;
+}
+
+.big-emoji{
+font-size:60px;
+margin-bottom:10px;
+}
+
+.header h2{
+font-size:24px;
+margin-bottom:8px;
+}
+
+.header p{
+font-size:14px;
+opacity:.95;
+}
+
+.section{
+padding:25px 25px 0;
+text-align:center;
+}
+
+.order-ref{
+color:#999;
+font-size:13px;
+margin-bottom:30px;
+}
+
+.order-ref b{
+color:#F28C6A;
+}
+
+.order-again-btn{
+display:block;
+background:#F28C6A;
+color:white;
+text-decoration:none;
+padding:16px;
+border-radius:25px;
+font-weight:bold;
+font-size:15px;
+margin-bottom:14px;
+}
+
+.view-receipt-link{
+display:block;
+color:#F28C6A;
+text-decoration:none;
+font-size:14px;
+font-weight:bold;
+padding:10px;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+width:390px;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+border-top:1px solid #ddd;
+}
+
+.bottom a{
+text-decoration:none;
+color:#666;
+font-size:13px;
+text-align:center;
+}
+
+.bottom a:hover{
+color:#F28C6A;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+<div class="big-emoji">🎉</div>
+<h2>Thank You for Ordering!</h2>
+<p>Your sweet treats are on the way.</p>
+</div>
+
+<div class="section">
+<p class="order-ref" id="order-ref"></p>
+
+<a href="homeDJR.html" class="order-again-btn">Order Again</a>
+<a href="receipt.html" class="view-receipt-link">View Receipt</a>
+</div>
+
+<div class="bottom">
+
+<a href="homeDJR.html">
+🏠<br>Home
+</a>
+
+<a href="categoriesDJR.html">
+📂<br>Categories
+</a>
+
+<a href="favoriteDJR.html">
+❤<br>Favorites
+</a>
+
+<a href="orderDJR.html">
+🛒<br>Orders
+</a>
+
+<a href="accountDJR.html">
+👤<br>Account
+</a>
+
+</div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  let order = null;
+  try { order = JSON.parse(localStorage.getItem('djr_last_order')); } catch (e) {}
+  const el = document.getElementById('order-ref');
+  if (order) {
+    el.innerHTML = 'Order <b>' + order.orderId + '</b> &middot; ' + order.date;
+  } else {
+    el.remove();
+  }
+});
+</script>
+
+</body>
+</html>

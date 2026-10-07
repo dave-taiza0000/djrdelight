@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Edit Profile</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:40px;
+}
+
+.header{
+background:#F28C6A;
+padding:25px 20px;
+border-radius:0 0 30px 30px;
+color:white;
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.back-link{
+color:white;
+text-decoration:none;
+font-size:22px;
+line-height:1;
+}
+
+.header h2{
+font-size:19px;
+}
+
+.section{
+padding:25px 20px;
+}
+
+.avatar-row{
+text-align:center;
+margin-bottom:25px;
+}
+
+.avatar{
+width:90px;
+height:90px;
+background:white;
+border-radius:50%;
+margin:0 auto 10px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:45px;
+color:#F28C6A;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.avatar-row p{
+color:#999;
+font-size:12.5px;
+}
+
+label{
+display:block;
+color:#555;
+margin-bottom:5px;
+font-size:14px;
+}
+
+input{
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:8px;
+margin-bottom:18px;
+outline:none;
+font-size:14px;
+}
+
+input:focus{
+border-color:#F28C6A;
+}
+
+.save-btn{
+display:block;
+width:100%;
+background:#F28C6A;
+color:white;
+border:none;
+padding:15px;
+border-radius:25px;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+margin-top:5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+<a href="accountDJR.html" class="back-link">←</a>
+<h2>Edit Profile</h2>
+</div>
+
+<div class="section">
+
+<div class="avatar-row">
+<div class="avatar">👤</div>
+<p>Your name and email are shown across the app.</p>
+</div>
+
+<form onsubmit="return saveProfile(event)">
+
+<label>Full Name</label>
+<input type="text" id="edit-name" required>
+
+<label>Email</label>
+<input type="email" id="edit-email" required>
+
+<button type="submit" class="save-btn">Save Changes</button>
+
+</form>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+function loadProfile() {
+  const user = getCurrentUser();
+  if (!user) {
+    window.location.href = 'index.html';
+    return;
+  }
+  document.getElementById('edit-name').value = user.name;
+  document.getElementById('edit-email').value = user.email;
+}
+
+function saveProfile(e) {
+  e.preventDefault();
+  const name = document.getElementById('edit-name').value.trim();
+  const email = document.getElementById('edit-email').value.trim();
+  if (!name || !email) return false;
+
+  const oldUser = getCurrentUser();
+
+  // Update the registered-accounts list: replace the old email entry (in case it changed)
+  let users = getRegisteredUsers().filter(u =>
+    !oldUser || u.email.toLowerCase() !== oldUser.email.toLowerCase()
+  );
+  users.push({ name, email });
+  localStorage.setItem('djr_users', JSON.stringify(users));
+
+  setCurrentUser({ name, email });
+  toast('Profile updated');
+  setTimeout(() => { window.location.href = 'accountDJR.html'; }, 600);
+  return false;
+}
+
+document.addEventListener('DOMContentLoaded', loadProfile);
+</script>
+
+</body>
+</html>

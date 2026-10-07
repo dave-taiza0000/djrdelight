@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Sign Up</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#FFE5B4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.phone{
+    width:390px;
+    height:844px;
+    background:#fffaf6;
+    overflow:hidden;
+    position:relative;
+    overflow-y:auto;
+}
+
+.top{
+    text-align:center;
+    padding-top:30px;
+}
+
+.logo{
+    font-size:60px;
+}
+
+h1{
+    color:#444;
+    font-size:34px;
+}
+
+h1 span{
+    color:#f48b73;
+    font-style:italic;
+}
+
+.tagline{
+    color:#777;
+    font-size:15px;
+    margin-top:5px;
+}
+
+.container{
+    padding:25px 30px;
+}
+
+.container h2{
+    color:#444;
+    margin-bottom:5px;
+}
+
+.container p{
+    color:#777;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    color:#555;
+    margin-bottom:5px;
+    font-size:14px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-bottom:16px;
+    outline:none;
+}
+
+.terms{
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+    margin-bottom:20px;
+}
+
+.terms input{
+    width:auto;
+    margin:3px 0 0 0;
+}
+
+.terms label{
+    margin:0;
+    font-size:12.5px;
+    line-height:1.4;
+}
+
+.signup{
+    display:block;
+    width:100%;
+    text-align:center;
+    background:#f48b73;
+    color:white;
+    padding:14px;
+    border-radius:25px;
+    text-decoration:none;
+    font-weight:bold;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.login-link{
+    text-align:center;
+    color:#777;
+    font-size:13px;
+    margin-top:5px;
+}
+
+.login-link a{
+    color:#f48b73;
+    font-weight:bold;
+    text-decoration:none;
+}
+
+.footer{
+    text-align:center;
+    color:#999;
+    font-size:12px;
+    padding:20px 0 25px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="phone">
+
+<div class="top">
+<div class="logo">🍰</div>
+<h1>DJR <span>Delights</span></h1>
+<div class="tagline">
+Sweet treats made with love.
+</div>
+</div>
+
+<div class="container">
+
+<h2>Create Account</h2>
+<p>Sign up to start ordering your favorite treats.</p>
+
+<form name="signup" method="POST" action="/homeDJR.html" data-netlify="true" netlify-honeypot="bot-field" onsubmit="return handleSignup(event)">
+
+<input type="hidden" name="form-name" value="signup">
+<p style="display:none;">
+<label>Leave this field blank: <input name="bot-field"></label>
+</p>
+
+<label>Full Name</label>
+<input type="text" name="fullName" placeholder="Enter your full name" required>
+
+<label>Email</label>
+<input type="email" name="email" placeholder="Enter your email" required>
+
+<label>Password</label>
+<input type="password" id="password" placeholder="Create a password" required minlength="6">
+
+<label>Confirm Password</label>
+<input type="password" id="confirmPassword" placeholder="Re-enter your password" required>
+
+<div class="terms">
+<input type="checkbox" id="terms" name="agreedToTerms" required>
+<label for="terms">I agree to the Terms of Service and Privacy Policy.</label>
+</div>
+
+<p id="signup-error" style="display:none; color:#e63946; font-size:12.5px; margin:-10px 0 14px;"></p>
+
+<button type="submit" class="signup">
+SIGN UP
+</button>
+
+</form>
+
+<p class="login-link" style="margin-top:20px;">
+Already have an account? <a href="index.html">Log In</a>
+</p>
+
+</div>
+
+<div class="footer">
+© 2026 DJR Delights
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+function handleSignup(e) {
+  e.preventDefault();
+  const form = e.target;
+  const errorEl = document.getElementById('signup-error');
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+
+  errorEl.style.display = 'none';
+
+  if (password !== confirmPassword) {
+    errorEl.textContent = "Passwords don't match. Please try again.";
+    errorEl.style.display = 'block';
+    return false;
+  }
+
+  const submitBtn = form.querySelector('.signup');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Signing up…';
+
+  const data = new FormData(form);
+  const fullName = data.get('fullName');
+  const email = data.get('email');
+
+  // Save the new account and start their session — this is what makes the
+  // Account page and "Welcome" greeting show this person instead of a placeholder.
+  registerUser({ name: fullName, email: email });
+  setCurrentUser({ name: fullName, email: email });
+
+  // Only send fields Netlify needs — never send the password itself.
+  const payload = new URLSearchParams();
+  payload.append('form-name', data.get('form-name'));
+  payload.append('fullName', data.get('fullName'));
+  payload.append('email', data.get('email'));
+  payload.append('agreedToTerms', data.get('agreedToTerms') ? 'yes' : 'no');
+  payload.append('bot-field', data.get('bot-field') || '');
+
+  fetch('/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: payload.toString()
+  })
+    .then(() => { window.location.href = 'homeDJR.html'; })
+    .catch(() => {
+      // Netlify Forms only works once deployed on Netlify — fall back gracefully
+      // (e.g. when testing locally) so the demo flow still continues.
+      window.location.href = 'homeDJR.html';
+    });
+
+  return false;
+}
+</script>
+
+</body>
+</html>

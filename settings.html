@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Settings</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:40px;
+}
+
+.header{
+background:#F28C6A;
+padding:25px 20px;
+border-radius:0 0 30px 30px;
+color:white;
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.back-link{
+color:white;
+text-decoration:none;
+font-size:22px;
+line-height:1;
+}
+
+.header h2{
+font-size:19px;
+}
+
+.section{
+padding:20px;
+}
+
+h3.label{
+color:#F28C6A;
+font-size:13px;
+text-transform:uppercase;
+letter-spacing:.5px;
+margin:0 0 10px;
+}
+
+.toggle-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+border-radius:15px;
+padding:15px 16px;
+margin-bottom:12px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.toggle-row div span{
+display:block;
+}
+
+.toggle-title{
+font-size:14px;
+color:#444;
+font-weight:bold;
+}
+
+.toggle-sub{
+font-size:11.5px;
+color:#999;
+margin-top:2px;
+}
+
+.switch{
+position:relative;
+width:46px;
+height:26px;
+flex:0 0 auto;
+}
+
+.switch input{
+opacity:0;
+width:0;
+height:0;
+}
+
+.slider{
+position:absolute;
+cursor:pointer;
+inset:0;
+background:#ddd;
+border-radius:999px;
+transition:.2s;
+}
+
+.slider::before{
+content:"";
+position:absolute;
+height:20px;
+width:20px;
+left:3px;
+top:3px;
+background:white;
+border-radius:50%;
+transition:.2s;
+}
+
+.switch input:checked + .slider{
+background:#F28C6A;
+}
+
+.switch input:checked + .slider::before{
+transform:translateX(20px);
+}
+
+.danger-box{
+background:white;
+border-radius:15px;
+padding:16px;
+margin-top:25px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.danger-box p{
+font-size:12.5px;
+color:#999;
+margin-bottom:12px;
+line-height:1.5;
+}
+
+.danger-btn{
+display:block;
+width:100%;
+background:white;
+color:#e63946;
+border:1.5px solid #e63946;
+padding:13px;
+border-radius:25px;
+font-weight:bold;
+font-size:14px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+<a href="accountDJR.html" class="back-link">←</a>
+<h2>Settings</h2>
+</div>
+
+<div class="section">
+
+<h3 class="label">Notifications</h3>
+
+<div class="toggle-row">
+<div>
+<span class="toggle-title">Push Notifications</span>
+<span class="toggle-sub">Order status updates on your device</span>
+</div>
+<label class="switch">
+<input type="checkbox" id="setting-push" onchange="updateSetting('pushNotifications', this.checked)">
+<span class="slider"></span>
+</label>
+</div>
+
+<div class="toggle-row">
+<div>
+<span class="toggle-title">Email Updates</span>
+<span class="toggle-sub">Receipts and order confirmations</span>
+</div>
+<label class="switch">
+<input type="checkbox" id="setting-email" onchange="updateSetting('emailUpdates', this.checked)">
+<span class="slider"></span>
+</label>
+</div>
+
+<div class="toggle-row">
+<div>
+<span class="toggle-title">Promotional Offers</span>
+<span class="toggle-sub">Deals and new menu items</span>
+</div>
+<label class="switch">
+<input type="checkbox" id="setting-promo" onchange="updateSetting('promoOffers', this.checked)">
+<span class="slider"></span>
+</label>
+</div>
+
+<div class="danger-box">
+<p><b>Clear App Data</b><br>Resets your cart, favorites, saved address, payment methods, and logs you out. Useful for testing this demo from scratch.</p>
+<button class="danger-btn" onclick="handleClearData()">Clear App Data</button>
+</div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+function loadSettings() {
+  const s = getSettings();
+  document.getElementById('setting-push').checked = s.pushNotifications;
+  document.getElementById('setting-email').checked = s.emailUpdates;
+  document.getElementById('setting-promo').checked = s.promoOffers;
+}
+
+function updateSetting(key, value) {
+  const s = getSettings();
+  s[key] = value;
+  saveSettings(s);
+  toast('Settings saved');
+}
+
+function handleClearData() {
+  if (confirm('This will reset the app — cart, favorites, address, payment methods, and your session will all be cleared. Continue?')) {
+    clearAllAppData();
+    window.location.href = 'index.html';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadSettings);
+</script>
+
+</body>
+</html>

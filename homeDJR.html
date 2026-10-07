@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Home</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:90px;
+
+}
+
+.header{
+
+background:#F28C6A;
+padding:20px;
+border-radius:0 0 30px 30px;
+color:white;
+
+}
+
+.topbar{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:28px;
+
+}
+
+.logo{
+
+font-size:28px;
+font-weight:bold;
+
+}
+
+.logo span{
+
+color:#FFE6A7;
+
+}
+
+.welcome{
+
+margin-top:20px;
+
+}
+
+.search{
+
+margin-top:20px;
+
+}
+
+.search input{
+
+width:100%;
+padding:12px;
+border:none;
+border-radius:25px;
+outline:none;
+font-size:15px;
+
+}
+
+.section{
+
+padding:20px;
+
+}
+
+.title{
+
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:15px;
+
+}
+
+.title h2{
+
+font-size:20px;
+color:#444;
+
+}
+
+.title a{
+
+text-decoration:none;
+color:#F28C6A;
+font-size:14px;
+
+}
+
+.categories{
+
+display:flex;
+gap:15px;
+overflow:auto;
+
+}
+
+.category{
+
+text-align:center;
+min-width:80px;
+cursor:pointer;
+
+}
+
+.category .circle{
+border:2px solid transparent;
+transition:border-color .15s, background .15s;
+}
+
+.category.active .circle{
+border-color:#F28C6A;
+background:#FFF0E8;
+}
+
+.category.active p{
+color:#F28C6A;
+font-weight:bold;
+}
+
+.circle{
+
+width:65px;
+height:65px;
+border-radius:50%;
+background:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:30px;
+margin:auto;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+
+}
+
+.category p{
+
+margin-top:8px;
+font-size:13px;
+
+}
+
+.products{
+
+display:flex;
+gap:15px;
+overflow:auto;
+
+}
+
+.card{
+
+background:white;
+width:160px;
+border-radius:20px;
+padding:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+
+}
+
+.image{
+
+height:110px;
+background:#FFE7D8;
+border-radius:15px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:55px;
+
+}
+
+.card h3{
+
+margin-top:10px;
+font-size:16px;
+
+}
+
+.price{
+
+color:#F28C6A;
+font-weight:bold;
+margin:8px 0;
+
+}
+
+.bottom{
+
+position:fixed;
+bottom:0;
+width:390px;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+border-top:1px solid #ddd;
+
+}
+
+.bottom a{
+
+text-decoration:none;
+color:#666;
+font-size:13px;
+text-align:center;
+
+}
+
+.bottom a:hover{
+
+color:#F28C6A;
+
+}
+
+.card-actions{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-top:6px;
+}
+
+.add-btn{
+background:#F28C6A;
+color:white;
+border:none;
+padding:7px 14px;
+border-radius:16px;
+font-size:12px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.heart-btn{
+font-size:20px;
+color:#F28C6A;
+cursor:pointer;
+user-select:none;
+line-height:1;
+}
+
+.heart-btn.active{
+color:#e63946;
+}
+
+.cart-icon-wrap{
+position:relative;
+display:inline-block;
+text-decoration:none;
+color:inherit;
+}
+
+.cart-badge-count{
+display:none;
+position:absolute;
+top:-6px;
+right:-10px;
+background:#fff;
+color:#F28C6A;
+font-size:11px;
+font-weight:bold;
+min-width:18px;
+height:18px;
+border-radius:50%;
+align-items:center;
+justify-content:center;
+padding:0 4px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+
+<div class="topbar">
+
+<div>☰</div>
+
+<div class="logo">
+DJR <span>Delights</span>
+</div>
+
+<a href="orderDJR.html" class="cart-icon-wrap">🛒<span class="cart-badge-count">0</span></a>
+
+</div>
+
+<div class="welcome">
+
+<h2 id="welcome-heading">Welcome, User!</h2>
+
+<p>What would you like today?</p>
+
+</div>
+
+<div class="search">
+
+<input type="text" id="search-input" placeholder="🔍 Search desserts" oninput="handleSearch(this.value)">
+
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="title">
+
+<h2>Categories</h2>
+
+<a href="#">See All</a>
+
+</div>
+
+<div class="categories">
+
+<div class="category active" data-chip="bestseller" onclick="selectCategory('bestseller', this)">
+<div class="circle">⭐</div>
+<p>Best Seller</p>
+</div>
+
+<div class="category" data-chip="cupcakes" onclick="selectCategory('cupcakes', this)">
+<div class="circle">🧁</div>
+<p>Cupcakes</p>
+</div>
+
+<div class="category" data-chip="cookies" onclick="selectCategory('cookies', this)">
+<div class="circle">🍪</div>
+<p>Cookies</p>
+</div>
+
+<div class="category" data-chip="drinks" onclick="selectCategory('drinks', this)">
+<div class="circle">🥤</div>
+<p>Drinks</p>
+</div>
+
+<div class="category" data-chip="cakes" onclick="selectCategory('cakes', this)">
+<div class="circle">🎂</div>
+<p>Cakes</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="section">
+
+<div class="title">
+
+<h2 id="products-heading">Best Sellers</h2>
+
+<a href="#" id="view-all-link">View All</a>
+
+</div>
+
+<div class="products" id="products-grid">
+<!-- filled in by renderProductsSection() below -->
+</div>
+
+</div>
+
+<div class="bottom">
+
+<a href="homeDJR.html">
+🏠<br>Home
+</a>
+
+<a href="categoriesDJR.html">
+📂<br>Categories
+</a>
+
+<a href="favoriteDJR.html">
+❤<br>Favorites
+</a>
+
+<a href="orderDJR.html">
+🛒<br>Orders
+</a>
+
+<a href="accountDJR.html">
+👤<br>Account
+</a>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+const BEST_SELLER_IDS = ['cupcake-choco', 'cake-strawberry', 'cookie-box'];
+const CATEGORY_LABELS = {
+  bestseller: 'Best Sellers',
+  cupcakes: 'Cupcakes',
+  cookies: 'Cookies',
+  drinks: 'Drinks',
+  cakes: 'Cakes'
+};
+let currentCategory = 'bestseller';
+
+function productCardHTML(id, showStars) {
+  const p = DJR_PRODUCTS[id];
+  if (!p) return '';
+  return `
+    <div class="card">
+      <div class="image">${p.emoji}</div>
+      <h3>${p.name}</h3>
+      <div class="price">₱${p.price}</div>
+      ${showStars ? '<p>★★★★★</p>' : ''}
+      <div class="card-actions">
+        <button class="add-btn" onclick="addToCart('${id}')">Add +</button>
+        <span class="heart-btn" data-fav-id="${id}" onclick="toggleFavorite('${id}')">♡</span>
+      </div>
+    </div>`;
+}
+
+function emptyMessage(text) {
+  return `<p style="flex-basis:100%; text-align:center; color:#999; padding:25px 0; font-size:13.5px;">${text}</p>`;
+}
+
+function selectCategory(cat, el) {
+  currentCategory = cat;
+  document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('search-input').value = '';
+  renderProductsSection('');
+}
+
+function renderProductsSection(query) {
+  const heading = document.getElementById('products-heading');
+  const viewAllLink = document.getElementById('view-all-link');
+  const grid = document.getElementById('products-grid');
+  const q = query.trim().toLowerCase();
+
+  // A search query always overrides the category filter
+  if (q) {
+    document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+    const matches = Object.keys(DJR_PRODUCTS).filter(id =>
+      DJR_PRODUCTS[id].name.toLowerCase().includes(q)
+    );
+    heading.textContent = `Results for "${query}"`;
+    viewAllLink.style.display = 'none';
+    grid.innerHTML = matches.length
+      ? matches.map(id => productCardHTML(id, false)).join('')
+      : emptyMessage(`No desserts found for "${query}".`);
+    updateFavoriteIcons();
+    return;
+  }
+
+  // No search query — render whichever category chip is selected
+  heading.textContent = CATEGORY_LABELS[currentCategory] || 'Best Sellers';
+  viewAllLink.style.display = currentCategory === 'bestseller' ? '' : 'none';
+
+  const ids = currentCategory === 'bestseller'
+    ? BEST_SELLER_IDS
+    : Object.keys(DJR_PRODUCTS).filter(id => DJR_PRODUCTS[id].cat === currentCategory);
+
+  grid.innerHTML = ids.length
+    ? ids.map(id => productCardHTML(id, currentCategory === 'bestseller')).join('')
+    : emptyMessage('No items in this category yet.');
+  updateFavoriteIcons();
+}
+
+function handleSearch(value) {
+  renderProductsSection(value);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderProductsSection('');
+  const user = getCurrentUser();
+  if (user && user.name) {
+    document.getElementById('welcome-heading').textContent = `Welcome, ${user.name}!`;
+  }
+});
+</script>
+</body>
+</html>

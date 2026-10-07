@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Login</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#FFE5B4;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.phone{
+    width:390px;
+    height:844px;
+    background:#fffaf6;
+    overflow:hidden;
+    position:relative;
+}
+
+.top{
+    text-align:center;
+    padding-top:40px;
+}
+
+.logo{
+    font-size:70px;
+}
+
+h1{
+    color:#444;
+    font-size:38px;
+}
+
+h1 span{
+    color:#f48b73;
+    font-style:italic;
+}
+
+.tagline{
+    color:#777;
+    font-size:15px;
+    margin-top:5px;
+}
+
+.container{
+    padding:30px;
+}
+
+.container h2{
+    color:#444;
+    margin-bottom:5px;
+}
+
+.container p{
+    color:#777;
+    margin-bottom:25px;
+}
+
+label{
+    display:block;
+    color:#555;
+    margin-bottom:5px;
+    font-size:14px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    margin-bottom:18px;
+    outline:none;
+}
+
+.links{
+    text-align:right;
+    margin-top:-10px;
+    margin-bottom:20px;
+}
+
+.links a{
+    text-decoration:none;
+    color:#888;
+    font-size:13px;
+}
+
+.login{
+    display:block;
+    width:100%;
+    text-align:center;
+    background:#f48b73;
+    color:white;
+    padding:14px;
+    border-radius:25px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.footer{
+    position:absolute;
+    bottom:20px;
+    width:100%;
+    text-align:center;
+    color:#999;
+    font-size:12px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="phone">
+
+<div class="top">
+<div class="logo">🍰</div>
+
+<h1>DJR <span>Delights</span></h1>
+
+<div class="tagline">
+Sweet treats made with love.
+</div>
+</div>
+
+<div class="container">
+
+<h2>Welcome Back!</h2>
+
+<p>Log in to continue to your account.</p>
+
+<form id="login-form" onsubmit="return handleLogin(event)">
+
+<label>Email</label>
+
+<input type="email" id="login-email" placeholder="Enter your email" required>
+
+<label>Password</label>
+
+<input type="password" id="login-password" placeholder="Enter your password" required>
+
+<div class="links">
+<a href="#">Forgot password?</a>
+</div>
+
+<button type="submit" class="login" style="border:none; width:100%; font-size:inherit; font-family:inherit; cursor:pointer;">
+LOG IN
+</button>
+
+</form>
+
+<p style="text-align:center; color:#777; font-size:13px; margin-top:20px;">
+Don't have an account? <a href="signup.html" style="color:#f48b73; font-weight:bold; text-decoration:none;">Sign Up</a>
+</p>
+
+</div>
+
+<div class="footer">
+© 2026 DJR Delights
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+function handleLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value.trim();
+
+  // Prototype auth: if this email signed up before, greet them by their real
+  // name; otherwise fall back to a friendly name guessed from the email.
+  const existing = findUserByEmail(email);
+  const user = existing || { name: nameFromEmail(email), email: email };
+  setCurrentUser(user);
+
+  window.location.href = 'homeDJR.html';
+  return false;
+}
+</script>
+</body>
+</html>

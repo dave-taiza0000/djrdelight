@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>DJR Delights - Categories</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:90px;
+}
+
+.header{
+background:#F28C6A;
+padding:20px;
+border-radius:0 0 30px 30px;
+color:white;
+text-align:center;
+}
+
+.header h2{
+margin-bottom:5px;
+}
+
+.search{
+padding:20px;
+}
+
+.search input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:25px;
+outline:none;
+font-size:15px;
+box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+
+.section{
+padding:0 20px 20px;
+}
+
+.category-title{
+color:#F28C6A;
+margin:20px 0 10px;
+font-size:20px;
+font-weight:bold;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.card{
+background:white;
+border-radius:20px;
+padding:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+text-align:center;
+}
+
+.image{
+height:100px;
+background:#FFE6D8;
+border-radius:15px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:50px;
+margin-bottom:10px;
+}
+
+.card h3{
+font-size:15px;
+color:#444;
+margin-bottom:5px;
+}
+
+.price{
+color:#F28C6A;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+button{
+background:#F28C6A;
+color:white;
+border:none;
+padding:10px 15px;
+border-radius:20px;
+cursor:pointer;
+}
+
+.card-actions{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
+}
+
+.heart-btn{
+font-size:20px;
+color:#F28C6A;
+cursor:pointer;
+user-select:none;
+line-height:1;
+}
+
+.heart-btn.active{
+color:#e63946;
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+width:390px;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:15px 0;
+border-top:1px solid #ddd;
+}
+
+.bottom a{
+text-decoration:none;
+color:#666;
+font-size:13px;
+text-align:center;
+}
+
+.bottom a:nth-child(2){
+color:#F28C6A;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+
+<h2>🍰 Categories</h2>
+
+<p>Choose your favorite desserts</p>
+
+</div>
+
+<div class="search">
+
+<input type="text" placeholder="🔍 Search desserts">
+
+</div>
+
+<div class="section">
+
+<div class="category-title">Best Sellers</div>
+
+<div class="products">
+
+<div class="card">
+<div class="image">🧁</div>
+<h3>Chocolate Cupcake</h3>
+<div class="price">₱89</div>
+<div class="card-actions">
+<button onclick="addToCart('cupcake-choco')">Add</button>
+<span class="heart-btn" data-fav-id="cupcake-choco" onclick="toggleFavorite('cupcake-choco')">♡</span>
+</div>
+</div>
+
+<div class="card">
+<div class="image">🍰</div>
+<h3>Strawberry Cake</h3>
+<div class="price">₱350</div>
+<div class="card-actions">
+<button onclick="addToCart('cake-strawberry')">Add</button>
+<span class="heart-btn" data-fav-id="cake-strawberry" onclick="toggleFavorite('cake-strawberry')">♡</span>
+</div>
+</div>
+
+</div>
+
+<div class="category-title">Cookies</div>
+
+<div class="products">
+
+<div class="card">
+<div class="image">🍪</div>
+<h3>Chocolate Chip</h3>
+<div class="price">₱75</div>
+<div class="card-actions">
+<button onclick="addToCart('cookie-chocochip')">Add</button>
+<span class="heart-btn" data-fav-id="cookie-chocochip" onclick="toggleFavorite('cookie-chocochip')">♡</span>
+</div>
+</div>
+
+<div class="card">
+<div class="image">🍪</div>
+<h3>Oatmeal Cookie</h3>
+<div class="price">₱70</div>
+<div class="card-actions">
+<button onclick="addToCart('cookie-oatmeal')">Add</button>
+<span class="heart-btn" data-fav-id="cookie-oatmeal" onclick="toggleFavorite('cookie-oatmeal')">♡</span>
+</div>
+</div>
+
+</div>
+
+<div class="category-title">Drinks</div>
+
+<div class="products">
+
+<div class="card">
+<div class="image">🥤</div>
+<h3>Milk Tea</h3>
+<div class="price">₱120</div>
+<div class="card-actions">
+<button onclick="addToCart('drink-milktea')">Add</button>
+<span class="heart-btn" data-fav-id="drink-milktea" onclick="toggleFavorite('drink-milktea')">♡</span>
+</div>
+</div>
+
+<div class="card">
+<div class="image">☕</div>
+<h3>Iced Coffee</h3>
+<div class="price">₱130</div>
+<div class="card-actions">
+<button onclick="addToCart('drink-icedcoffee')">Add</button>
+<span class="heart-btn" data-fav-id="drink-icedcoffee" onclick="toggleFavorite('drink-icedcoffee')">♡</span>
+</div>
+</div>
+
+</div>
+
+<div class="category-title">Cakes</div>
+
+<div class="products">
+
+<div class="card">
+<div class="image">🎂</div>
+<h3>Ube Cake</h3>
+<div class="price">₱320</div>
+<div class="card-actions">
+<button onclick="addToCart('cake-ube')">Add</button>
+<span class="heart-btn" data-fav-id="cake-ube" onclick="toggleFavorite('cake-ube')">♡</span>
+</div>
+</div>
+
+<div class="card">
+<div class="image">🍫</div>
+<h3>Chocolate Cake</h3>
+<div class="price">₱340</div>
+<div class="card-actions">
+<button onclick="addToCart('cake-chocolate')">Add</button>
+<span class="heart-btn" data-fav-id="cake-chocolate" onclick="toggleFavorite('cake-chocolate')">♡</span>
+</div>
+</div>
+
+</div>
+
+</div>
+
+<div class="bottom">
+
+<a href="homeDJR.html">
+🏠<br>Home
+</a>
+
+<a href="categoriesDJR.html">
+📂<br>Categories
+</a>
+
+<a href="favoriteDJR.html">
+❤️<br>Favorites
+</a>
+
+<a href="orderDJR.html">
+🛒<br>Orders
+</a>
+
+<a href="accountDJR.html">
+👤<br>Account
+</a>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

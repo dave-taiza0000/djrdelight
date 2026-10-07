@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Receipt</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:40px;
+}
+
+.header{
+background:#F28C6A;
+padding:20px;
+border-radius:0 0 30px 30px;
+color:white;
+text-align:center;
+}
+
+.header h2{
+margin-bottom:5px;
+}
+
+.section{
+padding:20px;
+}
+
+.receipt-box{
+background:white;
+border-radius:18px;
+padding:25px 22px;
+box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+.receipt-top{
+text-align:center;
+font-size:20px;
+font-weight:bold;
+color:#444;
+}
+
+.muted{
+text-align:center;
+color:#999;
+font-size:12.5px;
+margin-top:3px;
+}
+
+.dashed{
+border:none;
+border-top:1px dashed #ddd;
+margin:16px 0;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+font-size:14px;
+color:#444;
+margin:8px 0;
+}
+
+.row span:first-child{
+color:#777;
+}
+
+.row.item span:first-child{
+color:#444;
+}
+
+.row.total{
+font-size:17px;
+font-weight:bold;
+color:#F28C6A;
+}
+
+.status-line{
+text-align:center;
+color:#2e7d32;
+font-weight:bold;
+font-size:14px;
+margin-top:4px;
+}
+
+.continue-btn{
+display:block;
+width:100%;
+text-align:center;
+background:#F28C6A;
+color:white;
+text-decoration:none;
+padding:16px;
+border-radius:25px;
+font-weight:bold;
+font-size:15px;
+margin-top:25px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+<h2>🧾 Receipt</h2>
+<p>Your order is confirmed</p>
+</div>
+
+<div class="section">
+
+<div class="receipt-box">
+
+<div class="receipt-top">🍰 DJR Delights</div>
+<p class="muted">Sweet treats made with love</p>
+
+<hr class="dashed">
+
+<div class="row"><span>Order #</span><span id="r-order-id"></span></div>
+<div class="row"><span>Date</span><span id="r-date"></span></div>
+<div class="row"><span>Payment</span><span id="r-payment"></span></div>
+
+<hr class="dashed">
+
+<div id="r-items"></div>
+
+<hr class="dashed">
+
+<div class="row"><span>Subtotal</span><span id="r-subtotal"></span></div>
+<div class="row"><span>Delivery Fee</span><span id="r-delivery"></span></div>
+<div class="row total"><span>Total</span><span id="r-total"></span></div>
+
+<hr class="dashed">
+
+<p class="status-line">✅ Order Placed</p>
+
+</div>
+
+<a href="thankyou.html" class="continue-btn">Continue</a>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+function renderReceipt() {
+  let order = null;
+  try { order = JSON.parse(localStorage.getItem('djr_last_order')); } catch (e) {}
+
+  if (!order) {
+    window.location.href = 'homeDJR.html';
+    return;
+  }
+
+  document.getElementById('r-order-id').textContent = order.orderId;
+  document.getElementById('r-date').textContent = order.date;
+  document.getElementById('r-payment').textContent = order.payment;
+
+  document.getElementById('r-items').innerHTML = order.items.map(it =>
+    `<div class="row item"><span>${it.emoji} ${it.name} x${it.qty}</span><span>₱${it.price * it.qty}</span></div>`
+  ).join('');
+
+  document.getElementById('r-subtotal').textContent = '₱' + order.subtotal;
+  document.getElementById('r-delivery').textContent = '₱' + order.deliveryFee;
+  document.getElementById('r-total').textContent = '₱' + order.total;
+}
+
+document.addEventListener('DOMContentLoaded', renderReceipt);
+</script>
+
+</body>
+</html>

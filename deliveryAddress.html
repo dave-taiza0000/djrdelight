@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Delivery Address</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:40px;
+}
+
+.header{
+background:#F28C6A;
+padding:25px 20px;
+border-radius:0 0 30px 30px;
+color:white;
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.back-link{
+color:white;
+text-decoration:none;
+font-size:22px;
+line-height:1;
+}
+
+.header h2{
+font-size:19px;
+}
+
+.section{
+padding:20px;
+}
+
+.current-box{
+background:white;
+border-radius:15px;
+padding:16px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+margin-bottom:22px;
+font-size:14px;
+color:#444;
+line-height:1.6;
+display:none;
+}
+
+.current-box b{
+display:block;
+color:#F28C6A;
+font-size:12px;
+text-transform:uppercase;
+letter-spacing:.5px;
+margin-bottom:6px;
+}
+
+#current-address-text{
+white-space:pre-line;
+}
+
+label{
+display:block;
+color:#555;
+margin-bottom:5px;
+font-size:14px;
+}
+
+input{
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:8px;
+margin-bottom:16px;
+outline:none;
+font-size:14px;
+}
+
+input:focus{
+border-color:#F28C6A;
+}
+
+.row-2{
+display:flex;
+gap:12px;
+}
+
+.row-2 > div{
+flex:1;
+}
+
+.save-btn{
+display:block;
+width:100%;
+background:#F28C6A;
+color:white;
+border:none;
+padding:15px;
+border-radius:25px;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+margin-top:5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+<a href="accountDJR.html" class="back-link">←</a>
+<h2>Delivery Address</h2>
+</div>
+
+<div class="section">
+
+<div class="current-box" id="current-box">
+<b>Currently saved</b>
+<span id="current-address-text"></span>
+</div>
+
+<form onsubmit="return saveDeliveryAddress(event)">
+
+<label>Recipient Name</label>
+<input type="text" id="addr-name" required>
+
+<label>Phone Number</label>
+<input type="tel" id="addr-phone" placeholder="09XX XXX XXXX" required>
+
+<label>Street Address</label>
+<input type="text" id="addr-line1" placeholder="House/unit no., street, barangay" required>
+
+<div class="row-2">
+<div>
+<label>City / Municipality</label>
+<input type="text" id="addr-city" required>
+</div>
+<div>
+<label>Province</label>
+<input type="text" id="addr-province" required>
+</div>
+</div>
+
+<label>Postal Code</label>
+<input type="text" id="addr-postal" required>
+
+<button type="submit" class="save-btn">Save Address</button>
+
+</form>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+function loadAddress() {
+  const addr = getAddress();
+  if (!addr) return;
+
+  document.getElementById('addr-name').value = addr.name || '';
+  document.getElementById('addr-phone').value = addr.phone || '';
+  document.getElementById('addr-line1').value = addr.line1 || '';
+  document.getElementById('addr-city').value = addr.city || '';
+  document.getElementById('addr-province').value = addr.province || '';
+  document.getElementById('addr-postal').value = addr.postal || '';
+
+  document.getElementById('current-box').style.display = 'block';
+  document.getElementById('current-address-text').textContent =
+    `${addr.name} · ${addr.phone}\n${addr.line1}, ${addr.city}, ${addr.province} ${addr.postal}`;
+}
+
+function saveDeliveryAddress(e) {
+  e.preventDefault();
+  const addr = {
+    name: document.getElementById('addr-name').value.trim(),
+    phone: document.getElementById('addr-phone').value.trim(),
+    line1: document.getElementById('addr-line1').value.trim(),
+    city: document.getElementById('addr-city').value.trim(),
+    province: document.getElementById('addr-province').value.trim(),
+    postal: document.getElementById('addr-postal').value.trim(),
+  };
+  saveAddress(addr);
+  toast('Delivery address saved');
+  setTimeout(() => { window.location.href = 'accountDJR.html'; }, 600);
+  return false;
+}
+
+document.addEventListener('DOMContentLoaded', loadAddress);
+</script>
+
+</body>
+</html>

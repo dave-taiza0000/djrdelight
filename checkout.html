@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DJR Delights - Checkout</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#FFE5B4;
+display:flex;
+justify-content:center;
+}
+
+.phone{
+width:390px;
+min-height:844px;
+background:#FFF7F2;
+padding-bottom:40px;
+}
+
+.header{
+background:#F28C6A;
+padding:20px;
+border-radius:0 0 30px 30px;
+color:white;
+text-align:center;
+position:relative;
+}
+
+.header h2{
+margin-bottom:5px;
+}
+
+.cancel-link{
+position:absolute;
+top:20px;
+right:20px;
+color:white;
+text-decoration:none;
+font-size:14px;
+}
+
+.section{
+padding:20px;
+}
+
+h3.label{
+color:#F28C6A;
+font-size:15px;
+margin:18px 0 10px;
+}
+
+h3.label:first-of-type{
+margin-top:0;
+}
+
+.card-box{
+background:white;
+border-radius:15px;
+padding:15px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+font-size:14px;
+color:#444;
+line-height:1.6;
+}
+
+.card-box a{
+color:#F28C6A;
+text-decoration:none;
+font-weight:bold;
+}
+
+.pay-option{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:14px 16px;
+border-radius:15px;
+margin-bottom:10px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+cursor:pointer;
+border:2px solid transparent;
+font-size:14px;
+color:#444;
+}
+
+.pay-option.selected{
+border-color:#F28C6A;
+}
+
+.radio-dot{
+width:18px;
+height:18px;
+border-radius:50%;
+border:2px solid #ddd;
+position:relative;
+flex:0 0 auto;
+}
+
+.pay-option.selected .radio-dot{
+border-color:#F28C6A;
+}
+
+.pay-option.selected .radio-dot::after{
+content:"";
+position:absolute;
+inset:3px;
+border-radius:50%;
+background:#F28C6A;
+}
+
+.summary{
+background:white;
+padding:18px;
+border-radius:20px;
+box-shadow:0 2px 8px rgba(0,0,0,.1);
+margin-top:5px;
+}
+
+.checkout-item{
+display:flex;
+justify-content:space-between;
+font-size:14px;
+color:#444;
+margin:8px 0;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+margin:10px 0;
+font-size:14px;
+color:#444;
+}
+
+.total{
+font-size:18px;
+font-weight:bold;
+color:#F28C6A;
+}
+
+.place-order-btn{
+display:block;
+width:100%;
+text-align:center;
+background:#F28C6A;
+color:white;
+border:none;
+padding:16px;
+border-radius:25px;
+font-weight:bold;
+font-size:15px;
+margin-top:20px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="phone">
+
+<div class="header">
+<a href="orderDJR.html" class="cancel-link">✕ Cancel</a>
+<h2>🧾 Checkout</h2>
+<p>Confirm your order details</p>
+</div>
+
+<div class="section">
+
+<h3 class="label">📍 Delivery Address</h3>
+<div class="card-box" id="address-box"></div>
+
+<h3 class="label">💳 Payment Method</h3>
+<div id="payment-options"></div>
+<p style="text-align:center; margin:10px 0 0;">
+<a href="paymentMethod.html" style="color:#F28C6A; font-size:12.5px; font-weight:bold; text-decoration:none;">+ Manage payment methods</a>
+</p>
+
+<h3 class="label">🧁 Order Summary</h3>
+<div class="summary">
+<div id="checkout-items"></div>
+<hr style="margin:10px 0; border:none; border-top:1px dashed #ddd;">
+<div class="row"><span>Subtotal</span><span id="checkout-subtotal">₱0</span></div>
+<div class="row"><span>Delivery Fee</span><span id="checkout-delivery">₱0</span></div>
+<div class="row total"><span>Total</span><span id="checkout-total">₱0</span></div>
+</div>
+
+<button class="place-order-btn" onclick="placeOrder()">Place Order</button>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+let selectedPayment = 'Cash on Delivery';
+
+function selectPayment(el, label) {
+  document.querySelectorAll('.pay-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPayment = label;
+}
+
+function renderAddressBox() {
+  const box = document.getElementById('address-box');
+  const addr = getAddress();
+
+  if (addr) {
+    box.innerHTML = `
+      ${addr.name}<br>
+      ${addr.line1}<br>
+      ${addr.city}, ${addr.province} ${addr.postal}<br>
+      ${addr.phone}<br>
+      <a href="deliveryAddress.html">Change address</a>`;
+  } else {
+    box.innerHTML = `
+      No delivery address saved yet.<br>
+      <a href="deliveryAddress.html">+ Add a delivery address</a>`;
+  }
+}
+
+function renderPaymentOptions() {
+  const container = document.getElementById('payment-options');
+  const saved = getPaymentMethods();
+
+  // Fall back to the 3 generic options when nothing's been saved yet
+  const options = saved.length > 0
+    ? saved.map(m => ({ key: m.label, display: `${methodEmojiFor(m.type)} ${m.label}${m.sub ? ' · ' + m.sub : ''}`, isDefault: m.isDefault }))
+    : [
+        { key: 'Cash on Delivery', display: '💵 Cash on Delivery', isDefault: true },
+        { key: 'GCash', display: '📱 GCash', isDefault: false },
+        { key: 'Credit / Debit Card', display: '💳 Credit / Debit Card', isDefault: false }
+      ];
+
+  container.innerHTML = options.map(o => `
+    <div class="pay-option ${o.isDefault ? 'selected' : ''}" onclick="selectPayment(this,'${o.key.replace(/'/g, "\\'")}')">
+      <span>${o.display}</span>
+      <span class="radio-dot"></span>
+    </div>`).join('');
+
+  const defaultOpt = options.find(o => o.isDefault) || options[0];
+  selectedPayment = defaultOpt.key;
+}
+
+function methodEmojiFor(type) {
+  if (type === 'GCash') return '📱';
+  if (type === 'Card') return '💳';
+  return '💵';
+}
+
+function renderCheckoutItems() {
+  const cart = getCart();
+  const ids = Object.keys(cart).filter(id => DJR_PRODUCTS[id]);
+
+  if (ids.length === 0) {
+    window.location.href = 'orderDJR.html';
+    return;
+  }
+
+  document.getElementById('checkout-items').innerHTML = ids.map(id => {
+    const p = DJR_PRODUCTS[id];
+    const qty = cart[id];
+    return `<div class="checkout-item"><span>${p.emoji} ${p.name} x${qty}</span><span>₱${p.price * qty}</span></div>`;
+  }).join('');
+
+  const subtotal = cartSubtotal();
+  const total = subtotal + DELIVERY_FEE;
+  document.getElementById('checkout-subtotal').textContent = '₱' + subtotal;
+  document.getElementById('checkout-delivery').textContent = '₱' + DELIVERY_FEE;
+  document.getElementById('checkout-total').textContent = '₱' + total;
+}
+
+function placeOrder() {
+  const cart = getCart();
+  const ids = Object.keys(cart).filter(id => DJR_PRODUCTS[id]);
+  if (ids.length === 0) return;
+
+  const items = ids.map(id => ({
+    id, name: DJR_PRODUCTS[id].name, emoji: DJR_PRODUCTS[id].emoji,
+    price: DJR_PRODUCTS[id].price, qty: cart[id]
+  }));
+  const subtotal = cartSubtotal();
+  const total = subtotal + DELIVERY_FEE;
+
+  const order = {
+    orderId: 'DJR-' + Date.now().toString().slice(-6),
+    timestamp: Date.now(),
+    date: new Date().toLocaleString('en-PH', { dateStyle: 'medium', timeStyle: 'short' }),
+    items, subtotal, deliveryFee: DELIVERY_FEE, total, payment: selectedPayment
+  };
+
+  localStorage.setItem('djr_last_order', JSON.stringify(order));
+  addOrderToHistory(order);
+  saveCart({});
+  window.location.href = 'receipt.html';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderCheckoutItems();
+  renderAddressBox();
+  renderPaymentOptions();
+});
+</script>
+
+</body>
+</html>
